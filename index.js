@@ -27,6 +27,19 @@ fs.access(path, (err) => {
     const responses = await Promise.all(URLs?.map((url) => axios.get(url)));
     const requiredData = transformIpApiResponses(responses);
     console.log(requiredData, requiredData.length);
+    fs.writeFile(
+      __dirname + "/geoData.json",
+      JSON.stringify(requiredData, null, "\t"),
+      (err) => {
+        if (err) {
+          console.log(
+            `Couldn't create ${__dirname}/geoData.json to write output to`
+          );
+          return;
+        }
+        console.log(`Please check ${__dirname}/geoData.json`);
+      }
+    );
   });
 });
 
